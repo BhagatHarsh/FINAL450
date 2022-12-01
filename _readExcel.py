@@ -3,6 +3,7 @@
 # df = pd.read_excel('0_FINAL450.xlsx', sheet_name='Sheet1')
 # print(df)
 template = """
+//link: %s
 
 #include <bits/stdc++.h>
 using namespace std;
@@ -28,23 +29,15 @@ import os
 
 
 def getNthLink(n:int):
-    nextFile = 0
+    nextFile = n
     nextName = ''
-    for file in os.listdir(os.getcwd()):
-        # print(file)
-        if(file.endswith('.cpp') or file.endswith('.py')):
-            try:
-                nextFile = max(nextFile, int(file.split('_')[0]))
-            except:
-                pass
-            
-    nextName = str(n)+'_'+ ws.cell(row=5 + n, column=2).value + ".cpp"
-    
+    nextName = str(nextFile)+'_'+ ws.cell(row=5 + nextFile, column=2).value + ".cpp"
+    cellLink = ws.cell(row=5 + nextFile, column=2).hyperlink.target
     if(input("Do you want to overwrite the file? (y/n)") == 'y'):
         with open(nextName.replace(" ",""), 'w') as f:
-            f.write(template)
+            f.write(template%(str(cellLink)))
             
-    return ws.cell(row=6 + nextFile, column=2).hyperlink.target
+    return cellLink
 
 def getNextLink():
     nextFile = 0
@@ -57,13 +50,13 @@ def getNextLink():
             except:
                 pass
     nextName = str(nextFile + 1)+'_'+ ws.cell(row=6 + nextFile, column=2).value + ".cpp"
+    cellLink = ws.cell(row=6 + nextFile, column=2).hyperlink.target
     
     if(input("Do you want to overwrite the file? (y/n)") == 'y'):
         with open(nextName.replace(" ",""), 'w') as f:
-            f.write(template)
+            f.write(template%(str(cellLink)))
             
-    return ws.cell(row=6 + nextFile, column=2).hyperlink.target
-
+    return cellLink
 wb = openpyxl.load_workbook('0_FINAL450.xlsx')
 ws = wb['Sheet1']
 
