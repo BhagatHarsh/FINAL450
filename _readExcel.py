@@ -2,7 +2,7 @@
 
 # df = pd.read_excel('0_FINAL450.xlsx', sheet_name='Sheet1')
 # print(df)
-template = '''
+template = """
 
 #include <bits/stdc++.h>
 using namespace std;
@@ -20,7 +20,7 @@ int main(){
 }
 
 
-'''
+"""
 
 
 import openpyxl
