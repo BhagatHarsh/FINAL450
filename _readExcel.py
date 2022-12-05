@@ -1,7 +1,8 @@
-# import pandas as pd
 
-# df = pd.read_excel('0_FINAL450.xlsx', sheet_name='Sheet1')
-# print(df)
+import openpyxl
+import os
+
+
 template = """
 //link: %s
 
@@ -23,15 +24,29 @@ int main(){
 
 """
 
-
-import openpyxl
-import os
+def convertCase(arr) : # https://www.geeksforgeeks.org/convert-given-array-of-strings-to-a-camel-case-format-sentence/
+    ans = ""
+    N = len(arr)
+    for i in range(N) :
+        if (len(ans) > 0) :
+            ans += ' '
+        ans += arr[i][0].upper()
+        j = 1
+        while j < len(arr[i]) :
+            if (arr[i][j] == ' ') :
+                ans += ' '
+                ans += arr[i][j + 1].upper()
+                j += 1
+            else :
+                ans += arr[i][j].lower()
+            j += 1;
+    return ans
 
 
 def getNthLink(n:int):
     nextFile = n
     nextName = ''
-    nextName = str(nextFile)+'_'+ ws.cell(row=5 + nextFile, column=2).value + ".cpp"
+    nextName = convertCase((str(nextFile)+'_'+ ws.cell(row=5 + nextFile, column=2).value).split(" ")) + ".cpp"
     cellLink = ws.cell(row=5 + nextFile, column=2).hyperlink.target
     if(input("Do you want to overwrite the file? (y/n)") == 'y'):
         with open(nextName.replace(" ",""), 'w') as f:
@@ -49,7 +64,7 @@ def getNextLink():
                 nextFile = max(nextFile, int(file.split('_')[0]))
             except:
                 pass
-    nextName = str(nextFile + 1)+'_'+ ws.cell(row=6 + nextFile, column=2).value + ".cpp"
+    nextName = convertCase((str(nextFile + 1)+'_'+ ws.cell(row=6 + nextFile, column=2).value).split(" ")) + ".cpp"
     cellLink = ws.cell(row=6 + nextFile, column=2).hyperlink.target
     
     if(input("Do you want to overwrite the file? (y/n)") == 'y'):
