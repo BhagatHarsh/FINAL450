@@ -58,12 +58,10 @@ def getNextLink():
     nextFile = 0
     nextName = ''
     for file in os.listdir(os.getcwd()):
-        # print(file)
-        if(file.endswith('.cpp') or file.endswith('.py')):
-            try:
-                nextFile = max(nextFile, int(file.split('_')[0]))
-            except:
-                pass
+        try:
+            nextFile = max(nextFile, int(file.split('_')[0]))
+        except:
+            pass
     nextName = convertCase((str(nextFile + 1)+'_'+ ws.cell(row=6 + nextFile, column=2).value).split(" ")) + ".cpp"
     cellLink = ws.cell(row=6 + nextFile, column=2).hyperlink.target
     
