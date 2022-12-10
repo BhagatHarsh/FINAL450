@@ -26,20 +26,23 @@ int main(){
 
 def convertCase(arr) : # https://www.geeksforgeeks.org/convert-given-array-of-strings-to-a-camel-case-format-sentence/
     ans = ""
-    N = len(arr)
-    for i in range(N) :
-        if (len(ans) > 0) :
-            ans += ' '
-        ans += arr[i][0].upper()
-        j = 1
-        while j < len(arr[i]) :
-            if (arr[i][j] == ' ') :
+    try:
+        N = len(arr)
+        for i in range(N) :
+            if (len(ans) > 0) :
                 ans += ' '
-                ans += arr[i][j + 1].upper()
+            ans += arr[i][0].upper()
+            j = 1
+            while j < len(arr[i]) :
+                if (arr[i][j] == ' ') :
+                    ans += ' '
+                    ans += arr[i][j + 1].upper()
+                    j += 1
+                else :
+                    ans += arr[i][j].lower()
                 j += 1
-            else :
-                ans += arr[i][j].lower()
-            j += 1;
+    except:
+        pass
     return ans
 
 
