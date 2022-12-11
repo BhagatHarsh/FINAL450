@@ -1,7 +1,7 @@
 
 import openpyxl
 import os
-
+from string import punctuation
 
 template = """
 //link: %s
@@ -43,13 +43,13 @@ def convertCase(arr) : # https://www.geeksforgeeks.org/convert-given-array-of-st
                 j += 1
     except:
         pass
-    return ans
+    return ans.translate(str.maketrans('', '', punctuation))
 
 
 def getNthLink(n:int):
     nextFile = n
     nextName = ''
-    nextName = convertCase((str(nextFile)+'_'+ ws.cell(row=5 + nextFile, column=2).value).split(" ")) + ".cpp"
+    nextName = str(nextFile) +'_'+ convertCase((ws.cell(row=5 + nextFile, column=2).value).split(" ")) + ".cpp"
     cellLink = ws.cell(row=5 + nextFile, column=2).hyperlink.target
     if(input("Do you want to overwrite the file? (y/n)") == 'y'):
         with open(nextName.replace(" ",""), 'w') as f:
@@ -65,7 +65,7 @@ def getNextLink():
             nextFile = max(nextFile, int(file.split('_')[0]))
         except:
             pass
-    nextName = convertCase((str(nextFile + 1)+'_'+ ws.cell(row=6 + nextFile, column=2).value).split(" ")) + ".cpp"
+    nextName = str(nextFile + 1)+'_'+ convertCase(ws.cell(row=6 + nextFile, column=2).value.split(" ")) + ".cpp"
     cellLink = ws.cell(row=6 + nextFile, column=2).hyperlink.target
     
     if(input("Do you want to overwrite the file? (y/n)") == 'y'):
