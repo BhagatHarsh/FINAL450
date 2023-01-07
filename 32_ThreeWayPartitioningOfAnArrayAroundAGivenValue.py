@@ -8,30 +8,30 @@ from collections import Counter
 
 class Solution:
     def threeWayPartition(self, array, a, b):
-    lessA = []
-    rangeA = []
-    greatA = []
-    for i in array:
-        if (i < a):
-            lessA.append(i)
-        elif (i > b):
-            greatA.append(i)
-        else:
-            rangeA.append(i)
-    ind = 0
-    for i in lessA:
-        array[ind] = i
-        ind += 1
+        lessA = []
+        rangeA = []
+        greatA = []
+        for i in array:
+            if (i < a):
+                lessA.append(i)
+            elif (i > b):
+                greatA.append(i)
+            else:
+                rangeA.append(i)
+        ind = 0
+        for i in lessA:
+            array[ind] = i
+            ind += 1
 
-    for i in rangeA:
-        array[ind] = i
-        ind += 1
+        for i in rangeA:
+            array[ind] = i
+            ind += 1
 
-    for i in greatA:
-        array[ind] = i
-        ind += 1
+        for i in greatA:
+            array[ind] = i
+            ind += 1
 
-        return
+            return
 
 
 # {
