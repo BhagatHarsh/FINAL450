@@ -1,4 +1,3 @@
-
 import openpyxl
 import os
 from string import punctuation
@@ -24,21 +23,24 @@ int main(){
 
 """
 
-def convertCase(arr) : # https://www.geeksforgeeks.org/convert-given-array-of-strings-to-a-camel-case-format-sentence/
+
+def convertCase(
+    arr
+):  # https://www.geeksforgeeks.org/convert-given-array-of-strings-to-a-camel-case-format-sentence/
     ans = ""
     try:
         N = len(arr)
-        for i in range(N) :
-            if (len(ans) > 0) :
+        for i in range(N):
+            if (len(ans) > 0):
                 ans += ' '
             ans += arr[i][0].upper()
             j = 1
-            while j < len(arr[i]) :
-                if (arr[i][j] == ' ') :
+            while j < len(arr[i]):
+                if (arr[i][j] == ' '):
                     ans += ' '
                     ans += arr[i][j + 1].upper()
                     j += 1
-                else :
+                else:
                     ans += arr[i][j].lower()
                 j += 1
     except:
@@ -46,16 +48,28 @@ def convertCase(arr) : # https://www.geeksforgeeks.org/convert-given-array-of-st
     return ans.translate(str.maketrans('', '', punctuation))
 
 
-def getNthLink(n:int):
-    nextFile = n
-    nextName = ''
-    nextName = str(nextFile) +'_'+ convertCase((ws.cell(row=5 + nextFile, column=2).value).split(" ")) + ".cpp"
-    cellLink = ws.cell(row=5 + nextFile, column=2).hyperlink.target
-    if(input("Do you want to overwrite the file? (y/n)") == 'y'):
-        with open(nextName.replace(" ",""), 'w') as f:
-            f.write(template%(str(cellLink)))
-            
+def getNthLink(n: int):
+    nextFile = n-1
+    i = 6
+    val = 0
+    while (val != nextFile):
+        i += 1
+        if (ws.cell(row=i, column=2).value != None):
+            val += 1
+        
+    requiredCell = ws.cell(row=i, column=2)
+    
+    nextName = str(nextFile + 1) + '_' + convertCase(requiredCell.value.split()) + ".cpp"
+    cellLink = requiredCell.hyperlink.target
+
+    if (input("Do you want to overwrite the file? (y/n)") == 'y'):
+        with open(nextName.replace(" ", ""), 'w') as f:
+            f.write(template % (str(cellLink)))
+    print("catergory: " + ws.cell(row=i, column=1).value)
     return cellLink
+
+    return cellLink
+
 
 def getNextLink():
     nextFile = 0
@@ -65,25 +79,34 @@ def getNextLink():
             nextFile = max(nextFile, int(file.split('_')[0]))
         except:
             pass
-    nextName = str(nextFile + 1)+'_'+ convertCase(ws.cell(row=6 + nextFile, column=2).value.split(" ")) + ".cpp"
-    cellLink = ws.cell(row=6 + nextFile, column=2).hyperlink.target
+    print("getting number " + str(nextFile + 1) + " for you!!")
+
+    i = 6
+    val = 0
+    while (val != nextFile):
+        i += 1
+        if (ws.cell(row=i, column=2).value != None):
+            val += 1
+        
+    requiredCell = ws.cell(row=i, column=2)
     
-    if(input("Do you want to overwrite the file? (y/n)") == 'y'):
-        with open(nextName.replace(" ",""), 'w') as f:
-            f.write(template%(str(cellLink)))
-            
+    nextName = str(nextFile + 1) + '_' + convertCase(requiredCell.value.split()) + ".cpp"
+    cellLink = requiredCell.hyperlink.target
+
+    if (input("Do you want to overwrite the file? (y/n)") == 'y'):
+        with open(nextName.replace(" ", ""), 'w') as f:
+            f.write(template % (str(cellLink)))
+    print("catergory: " + ws.cell(row=i, column=1).value)
     return cellLink
+
+
 wb = openpyxl.load_workbook('0_FINAL450.xlsx')
 ws = wb['Sheet1']
 
-
-if(input("Do you want the next link? (y/n)") == 'y'):
+if (input("Do you want the next link? (y/n)") == 'y'):
     print(getNextLink())
-    
-elif(input("Do you want a specific link? (y/n)") == 'y'):
+
+elif (input("Do you want a specific link? (y/n)") == 'y'):
     print(getNthLink(int(input("Enter the number of the question: "))))
-
-
-
 
 # This will fail if there is no hyperlink to target
