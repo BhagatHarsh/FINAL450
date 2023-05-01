@@ -1,23 +1,46 @@
-name: Update Repo Visualizer Diagram
+name: Create repo diagram
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
 
 jobs:
-  build:
+  build-diagram:
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Update diagram
+        uses: githubocto/repo-visualizer@0.7.1
+        with:
+          output_file: "repo.svg"
+      - name: Commit and push changes
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: "Update repo.svg"
+          commit_options: "--no-verify"
+          repository: ${{ github.repository }}
+          branch: diagram
+          commit_user_name: BhagatHarsh
+          commit_user_email: habhagat2003@gmail.com
 
-    - name: Update Repo Visualizer Diagram
-      uses: githubocto/repo-visualizer@0.7.1
-      with:
-        output_file: "repo.svg"
-        excluded_paths: "node_modules,dist"
-        should_push: true
-        commit_message: "Updating Repo Visualizer diagram"
-        branch: "diagram"
-        file_colors: '{"js": "#f0db4f", "py": "#3572A5"}'
+  update-readme:
+    runs-on: ubuntu-latest
+    needs: [build-diagram]
+    steps:
+      - name: Checkout diagram branch
+        uses: actions/checkout@v2
+        with:
+          ref: diagram
+      - name: Copy repo.svg to root directory
+        run: cp ./repo.svg ./../
+      - name: Commit and push changes
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: "Update README.md"
+          commit_options: "--no-verify"
+          repository: ${{ github.repository }}
+          branch: diagram
+          commit_user_name: BhagatHarsh
+          commit_user_email: habhagat2003@gmail.com
