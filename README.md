@@ -2,7 +2,7 @@
 
 This repo is to save my code and maintain a streak of solving the SDE sheet given by 💗 babber the FINAL450.
 
-## Repository Visualization
+## All the files 
 
 ![Repository Visualization](./repo.svg)
 
