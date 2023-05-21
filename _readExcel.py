@@ -3,24 +3,10 @@ import os
 from string import punctuation
 
 template = """
-//link: %s
-
-#include <bits/stdc++.h>
-using namespace std;
-#define ll long long int
-#define endl '\\n'
-
-int main(){
-    ll t,n;
-    cin>>t;
-    while(t--){
-        cin>>n;
-        
-    }
-    return 0;
-}
-
-
+# Link: %s
+for loop in range(int(input())):
+    n,m = map(int,input().split())
+    l = list(map(int,input().split()))
 """
 
 
@@ -59,22 +45,20 @@ def getNthLink(n: int):
         
     requiredCell = ws.cell(row=i, column=2)
     
-    nextName = str(nextFile + 1) + '_' + convertCase(requiredCell.value.split()) + ".cpp"
+    nextName = str(nextFile + 1) + '_' + convertCase(requiredCell.value.split()) + ".py"
     cellLink = requiredCell.hyperlink.target
 
     if (input("Do you want to overwrite the file? (y/n)") == 'y'):
-        with open(nextName.replace(" ", ""), 'w') as f:
+        with open(os.getcwd() + '/FINAL450/' + nextName.replace(" ", ""), 'w') as f:
             f.write(template % (str(cellLink)))
     print("catergory: " + ws.cell(row=i, column=1).value)
-    return cellLink
-
     return cellLink
 
 
 def getNextLink():
     nextFile = 0
     nextName = ''
-    for file in os.listdir(os.getcwd()):
+    for file in os.listdir(os.getcwd() + '/FINAL450/'):
         try:
             nextFile = max(nextFile, int(file.split('_')[0]))
         except:
@@ -90,17 +74,17 @@ def getNextLink():
         
     requiredCell = ws.cell(row=i, column=2)
     
-    nextName = str(nextFile + 1) + '_' + convertCase(requiredCell.value.split()) + ".cpp"
+    nextName = str(nextFile + 1) + '_' + convertCase(requiredCell.value.split()) + ".py"
     cellLink = requiredCell.hyperlink.target
 
     if (input("Do you want to overwrite the file? (y/n)") == 'y'):
-        with open(nextName.replace(" ", ""), 'w') as f:
+        with open(os.getcwd() + '/FINAL450/' + nextName.replace(" ", ""), 'w') as f:
             f.write(template % (str(cellLink)))
     print("catergory: " + ws.cell(row=i, column=1).value)
     return cellLink
 
 
-wb = openpyxl.load_workbook('0_FINAL450.xlsx')
+wb = openpyxl.load_workbook(os.getcwd() + '/FINAL450/0_FINAL450.xlsx')
 ws = wb['Sheet1']
 
 if (input("Do you want the next link? (y/n)") == 'y'):
