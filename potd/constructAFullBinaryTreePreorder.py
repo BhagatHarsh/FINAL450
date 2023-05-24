@@ -1,4 +1,6 @@
-#User function Template for python3
+'''
+https://practice.geeksforgeeks.org/problems/93c977e771fc0d82e87ba570702732edb2226ad7/1
+'''
 class Node:
     def __init__(self,data) -> None:
         self.data = data
